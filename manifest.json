@@ -6,8 +6,12 @@
     "permissions": [
         "activeTab",
         "contextMenus",
-        "storage"
+        "storage",
+        "scripting"
     ],
+    "background": {
+        "service_worker": "service-worker.js"
+    },
     "host_permissions": [
         "https://api.tatoeba.org/*",
         "http://127.0.0.1:8765/*"
