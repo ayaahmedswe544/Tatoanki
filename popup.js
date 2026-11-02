@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         selectedWordElement.textContent =
             data.selectedWord || "No word selected";
 
+        if (data.selectedWord) {
+            searchTatoeba(data.selectedWord);
+        }
+
     } catch (error) {
         console.error("Storage error:", error);
 
@@ -25,3 +29,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 });
+async function searchTatoeba(word) {
+    const url = `https://api.tatoeba.org/v1/sentences?lang=deu&q=${encodeURIComponent(word)}&sort=-words&limit=20&word_count=6+&trans:lang=eng&trans:is_direct=yes`;
+    const response = await fetch(url);
+
+    const data = await response.json();
+    const longSentences = data.data.filter(sentence => {
+        return sentence.text.trim().split(/\s+/).length >= 6;
+    });
+    console.log(longSentences);
+    console.log(data);
+    console.log(data.data[0]);
+}
