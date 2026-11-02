@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "Tatoeba Anki",
+    "version": "1.0.0",
+    "description": "Find real German-English example sentences on Tatoeba and add vocabulary to Anki.",
+    "permissions": [
+        "activeTab",
+        "contextMenus",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://api.tatoeba.org/*",
+        "http://127.0.0.1:8765/*"
+    ],
+    "action": {
+        "default_title": "Tatoeba Anki"
+    }
+}
