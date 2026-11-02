@@ -1,30 +1,27 @@
-const selectedWordElement = document.getElementById("selected-word");
-const examplesElement = document.getElementById("examples");
-const addButton = document.getElementById("add-to-anki");
-async function getSelectedWord() {
-    const [tab] = await chrome.tabs.query({
-        active: true,
-        currentWindow: true
-    });
+document.addEventListener("DOMContentLoaded", async () => {
 
-    if (!tab || !tab.id) {
-        selectedWordElement.textContent = "No active tab found";
+    const selectedWordElement =
+        document.getElementById("selected-word");
+
+    console.log("Popup JavaScript loaded!");
+
+    if (!selectedWordElement) {
+        console.error("selected-word element not found!");
         return;
     }
 
-    const results = await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: () => window.getSelection().toString().trim()
-    });
+    try {
+        const data = await chrome.storage.local.get("selectedWord");
 
-    const word = results[0].result;
-    if (word) {
-        selectedWordElement.textContent = word;
-    } else {
-        selectedWordElement.textContent = "No word selected";
+        console.log("Retrieved data:", data);
+
+        selectedWordElement.textContent =
+            data.selectedWord || "No word selected";
+
+    } catch (error) {
+        console.error("Storage error:", error);
+
+        selectedWordElement.textContent = "Error loading word";
     }
-}
-addButton.addEventListener("click", () => {
-    console.log("Add to Anki clicked!");
+
 });
-getSelectedWord();
