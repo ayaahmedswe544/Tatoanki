@@ -13,6 +13,7 @@
         "http://127.0.0.1:8765/*"
     ],
     "action": {
-        "default_title": "Tatoeba Anki"
+        "default_title": "Tatoeba Anki",
+        "default_popup": "popup.html"
     }
 }
