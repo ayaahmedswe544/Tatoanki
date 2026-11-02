@@ -9,8 +9,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("selected-word element not found!");
         return;
     }
+    chrome.storage.onChanged.addListener((changes, areaName) => {
+        if (areaName === "local" && changes.selectedWord) {
+            const word = changes.selectedWord.newValue;
+
+            document.getElementById("selected-word").textContent = word;
+
+            searchTatoeba(word);
+        }
+    });
 
     try {
+        await new Promise(resolve => setTimeout(resolve, 100));
         const data = await chrome.storage.local.get("selectedWord");
 
         console.log("Retrieved data:", data);
@@ -40,4 +50,15 @@ async function searchTatoeba(word) {
     console.log(longSentences);
     console.log(data);
     console.log(data.data[0]);
+
+    const examplesElement = document.getElementById("examples");
+
+    examplesElement.innerHTML = "";
+
+    const sentence = longSentences[0];
+
+    examplesElement.innerHTML = `
+    <p>${sentence.text}</p>
+    <p>${sentence.translations[0].text}</p>
+`;
 }
